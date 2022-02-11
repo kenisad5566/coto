@@ -166,19 +166,19 @@ function testAdaptiveShedderStillHot() {
     shedder.stillHot() === false,
     "testAdaptiveShedderStillHot stillHot is false"
   );
-  shedder.dropTime = new Date().getTime() - 1000 * 2;
+  shedder.dropTime = Date.now() - 1000 * 2;
   console.log(
     shedder.stillHot() === false,
     "testAdaptiveShedderStillHot stillHot is false"
   );
   shedder.droppedRecently = true;
-  shedder.dropTime = new Date().getTime() - 1000 / 2;
+  shedder.dropTime = Date.now() - 1000 / 2;
   console.log(
     shedder.stillHot() === true,
     "testAdaptiveShedderStillHot droppedRecently and drop time < 1s stillHot is true"
   );
   shedder.droppedRecently = true;
-  shedder.dropTime = new Date().getTime() - 1000 * 2;
+  shedder.dropTime = Date.now() - 1000 * 2;
   shedder.stillHot();
   console.log(
     shedder.droppedRecently,
@@ -187,8 +187,8 @@ function testAdaptiveShedderStillHot() {
 }
 
 function sleep(time: number) {
-  const time1 = new Date().getTime();
-  while (new Date().getTime() - time1 < time) {}
+  const time1 = Date.now();
+  while (Date.now() - time1 < time) {}
 }
 
 function test() {

@@ -36,7 +36,7 @@ export class RollingWindow {
     this.ignoreCurrent = ignoreCurrent;
     this.offset = 0;
     this.win = new Windoww(size);
-    this.lastTime = new Date().getTime();
+    this.lastTime = Date.now();
   }
 
   /**
@@ -54,8 +54,8 @@ export class RollingWindow {
    */
   updateOffset() {
     // 经过span个桶的时间没有写入数据
-    const now = new Date().getTime(); // 当前时间戳，毫秒
-    const span = this.span(now);
+    const now = Date.now(); // 当前时间戳，毫秒
+    const span = this.span();
     // 还在同一单元时间内不需要更新
     if (span <= 0) return;
 
@@ -84,8 +84,8 @@ export class RollingWindow {
    * 实际上就是经过多少个桶
    * 过期的桶数量
    */
-  span(time: number): number {
-    const offset = Math.floor((time - this.lastTime) / this.interval);
+  span(): number {
+    const offset = Math.floor((Date.now() - this.lastTime) / this.interval);
     if (0 <= offset && offset < this.size) return offset;
 
     // 大于时间窗口，返回窗口大小
@@ -95,8 +95,7 @@ export class RollingWindow {
   // 归纳汇总数据
   reduce(fun: WindowBucketsReduceFun) {
     let diff;
-    const time = new Date().getTime();
-    const span = this.span(time);
+    const span = this.span();
     // 当前时间截止前，未过期的桶的数量
     if (span === 0 && this.ignoreCurrent) {
       diff = this.size - 1;

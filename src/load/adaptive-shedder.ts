@@ -75,7 +75,7 @@ export class AdaptiveShedder {
   }
 
   allow(): { promise: ShedderPromise | null; error: string } {
-    const now = new Date().getTime();
+    const now = Date.now();
     // 检查请求是否被丢弃
     if (this.shouldDrop()) {
       // 设置最近拒绝时间
@@ -83,7 +83,6 @@ export class AdaptiveShedder {
       // 最近已被drop
       this.droppedRecently = true;
       // 返回过载
-      console.log("shouldDrop");
       return { promise: null, error: "too hot" };
     }
 
@@ -138,8 +137,7 @@ export class AdaptiveShedder {
 
     // 冷却期默认1000ms
     const collOffDuration = 1000;
-    const hot =
-      new Date().getTime() - this.dropTime < collOffDuration ? true : false;
+    const hot = Date.now() - this.dropTime < collOffDuration ? true : false;
 
     // 过了冷却期
     if (!hot) {
@@ -220,7 +218,7 @@ export class ShedderPromise {
 
   pass() {
     // 响应时间，单位毫秒
-    const now = new Date().getTime();
+    const now = Date.now();
     const rt = now - this.start;
     this.shedder.addFlying(-1);
     this.shedder.passCounter.add(1);
