@@ -2,7 +2,7 @@
  * 测试命令   ./node_modules/.bin/mocha -r ./node_modules/ts-node/register .\src\collection\test\rolling-window.test.ts
  */
 
-import { sleep } from "src/util/util";
+import { sleep } from "./../../util/util";
 import { RollingWindow } from "../rolling-window";
 var assert = require("assert");
 

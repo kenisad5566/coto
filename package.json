@@ -1,12 +1,20 @@
 {
-  "name": "coto",
-  "version": "1.0.0",
-  "description": "This project provide some useful tool for web application",
+  "name": "cotool",
+  "version": "1.0.2",
+  "description": "coto provide some useful tool for web server",
   "main": "dist/index.js",
-  "dependencies": {},
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "fnv-plus": "^1.3.1"
+  },
   "devDependencies": {
+    "@types/ioredis": "^4.28.8",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.17",
+    "ioredis": "^4.28.5",
     "mocha": "^9.2.0",
     "ts-node": "^10.5.0",
     "tslib": "^2.3.1",
@@ -14,7 +22,8 @@
     "typings": "^2.1.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
