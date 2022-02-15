@@ -9,6 +9,7 @@ const redisOption = { host: "127.0.0.1", port: 6379 } as RedisOptions;
 
 describe("Test ZsetLru cache", async function () {
   const storeKey = "test_zset_lru";
+  const storeHashKey = "test_zset_lru_hash_map";
   const capacity = 3;
   const store = newRedis(redisOption);
   const lru = new ZsetLru(store, storeKey, capacity);
@@ -58,5 +59,21 @@ describe("Test ZsetLru cache", async function () {
     await lru.get("b");
     const members = await lru.list();
     assert.equal(JSON.stringify(["b", "d", "c"]), JSON.stringify(members));
+  });
+
+  it("hash keys should be b d c", async function () {
+    const keys = await store.hkeys(storeHashKey);
+    assert.equal(
+      JSON.stringify(["b", "d", "c"].sort()),
+      JSON.stringify(keys.sort())
+    );
+  });
+
+  it("hash values should be b d c", async function () {
+    const all = await store.hgetall(storeHashKey);
+    assert.equal(
+      JSON.stringify(["b", "d", "c"].sort()),
+      JSON.stringify(Object.values(all).sort())
+    );
   });
 });
