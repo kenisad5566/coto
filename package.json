@@ -1,6 +1,6 @@
 {
   "name": "cotool",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "coto provide some useful tool for web server",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
