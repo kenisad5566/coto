@@ -2,13 +2,13 @@
 
 该库提供了一系列 nodejs web 后端常用的工具，包括自适应降载器，时间滑动窗口，时间轮定时器，lru，布隆过滤器，bitmap 和一些限速工具等。
 
-# usage
+### usage
 
 ```
 npm i cotool
 ```
 
-# adapter shedder
+### adapter shedder
 
 自适应降载器，会计算当前进程 cpu 消耗情况，时间窗口内最大并发数，和当前平均并发数等数据，自适应拒绝请求，降低服务器负载。
 
@@ -47,7 +47,7 @@ export default class AdaptiveShedderMiddleware implements KoaMiddleware {
 
 ```
 
-# 布隆过滤器
+### 布隆过滤器
 
 布隆过滤器常用来判断不存在，可以用来解决缓存穿透等场景问题。(注意，布隆过滤器不能处理删除)
 
@@ -67,7 +67,7 @@ await filter.exists("world"); // true
 await filter.exists("hello world"); // false
 ```
 
-# bitmap
+### bitmap
 
 基于 redis 的 bitmap，可以用来做一些判断存在性问题的场景，比如一篇文章，用户 a 是否已读。
 
@@ -82,7 +82,7 @@ await bitMapUnSet(store, key, [1, 2]); // 将索引位 1,2的值设为0
 await bitMapTest(store, key, [1, 2, 3, 4, 5]); // 返回值为1的索引，[3]
 ```
 
-# 时间滑动窗口
+### 时间滑动窗口
 
 时间滑动窗口可以用来收集一些时序相关的信息，可以用在限速，时序相关热度榜等场景
 
@@ -99,4 +99,30 @@ const result = [];
 r.reduce((bucket) => {
   result.push(bucket.sum);
 });
+```
+
+###
+
+lru, 最近最少使用淘汰策略算法
+
+```javascript
+const capacity = 30;
+const lru = new LRUCache(capacity);
+
+lru.put("a", "a");
+lru.get("a");
+```
+
+###
+
+lru-redis-zet，用 redis 的 zset 结构实现 lru 算法
+
+```javascript
+const storeKey = "test_zset_lru";
+const capacity = 3;
+const store = newRedis(redisOption);
+const lru = new ZsetLru(store, storeKey, capacity);
+
+lru.put("a", "a");
+lru.get("a");
 ```
